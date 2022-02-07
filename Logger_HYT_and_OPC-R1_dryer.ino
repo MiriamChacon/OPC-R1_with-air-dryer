@@ -6,7 +6,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SoftwareSerial.h>
-//#include <Adafruit_ADS1015.h>
 #include "RTClib.h"
 #define HYT939_ADDR 0x28
 #define TFACTOR 99.2909
@@ -83,23 +82,6 @@ void setup(){
     myFile.flush();
   }  
 
-  // setup adc
-  //Serial.println("Getting single-ended readings from AIN0");
-  //Serial.println("ADC Range: +/- 6.144V (1 bit = 3mV/ADS1015, 0.1875mV/ADS1115)");
-  
-  // The ADC input range (or gain) can be changed via the following
-  // functions, but be careful never to exceed VDD +0.3V max, or to
-  // exceed the upper and lower limits if you adjust the input range!
-  // Setting these values incorrectly may destroy your ADC!
-  // ADS1015  ADS1115  -------  -------
-  // ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
-  // ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
-  // ads.setGain(GAIN_TWO);        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
-  // ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
-  // ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
-  // ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-  //ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-  //ads.begin();
 
   Serial.println("Setup done, now logging...");  
 }
@@ -214,40 +196,6 @@ void loop(){
       Serial.print(hum);
       Serial.print(';');
 
-      /*
-      //read ADC
-      int16_t adc_0, adc_1, adc_2, adc_3;
-  
-      adc_0 = ads.readADC_Differential_0_1();
-      adc_1 = 0;
-      adc_2 = ads.readADC_Differential_2_3();
-      adc_3 = 0;
-      //adc_0 = ads.readADC_SingleEnded(0);
-      //adc_1 = ads.readADC_SingleEnded(1);
-      //adc_2 = ads.readADC_SingleEnded(2);
-      //adc_3 = ads.readADC_SingleEnded(3);
-      Serial.print("Ch0: ");
-      Serial.print(adc_0);
-      //Serial.print(" Ch1:");
-      //Serial.print(adc_1);
-      Serial.print(" Ch2:");
-      Serial.println(adc_2);
-      //Serial.print(" Ch3:");
-      //Serial.println(adc_3);
-
-       
-      
-      
-      //myFile.print('\t');
-      myFile.print(adc_0);
-      myFile.print('\t');
-      //myFile.print(adc_1);
-      //myFile.print('\t');
-      myFile.print(adc_2);
-      myFile.print('\t');
-      //myFile.print(adc_3);
-      //myFile.print('\t');
-      */
   
       myFile.print(temp);
       myFile.print('\t');
@@ -255,7 +203,7 @@ void loop(){
       myFile.print('\t');
 
       //dryer control
-      if (hum > 70) {
+      if (hum > 65) {
         if (mydata.temp < dryerMinT) {
           dryerOn = true;
           overtemp = false;
@@ -298,5 +246,3 @@ void loop(){
       delay(2000);
     }    
 }
-
-
